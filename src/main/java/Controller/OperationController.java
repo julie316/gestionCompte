@@ -146,10 +146,18 @@ public class OperationController implements Serializable {
             Compte cp1 = this.compteFacade.find(this.compteNumber);
             cp1.setSolde(cp1.getSolde()-this.versement.getMontant());
             this.compteFacade.edit(cp1);
+            Retrait retirer = new Retrait();
+            retirer.setCompte(cp1);
+            retirer.setMontant(this.versement.getMontant());
+            retirer.setDateOperation(new Date());
+            this.operationFacade.create(retirer);
             // rechercher le compte du dépositaire et verser le montant dans le solde
             Compte cp2 = this.compteFacade.find(this.cpteNumber);
             cp2.setSolde(cp2.getSolde()+this.versement.getMontant());
             this.compteFacade.edit(cp2);
+            this.versement.setCompte(cp2);
+            this.versement.setDateOperation(new Date());
+            this.operationFacade.create(this.versement);
             this.versement = new Versement();
             this.message = "Opération réussie";
         } catch(Exception e){

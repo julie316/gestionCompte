@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -203,11 +202,18 @@ public class CompteController implements Serializable {
     } 
     
     public void printReport(Compte compte) throws Exception{
-        JasperReport jasperReport = JasperCompileManager.compileReport(new FileInputStream("C:\\Users\\Eboa\\reportTest.jrxml"));
-        HashMap<String, Object> parameters = new HashMap();
-        parameters.put("nom_client",compte.getClient().getNomClt());
-        parameters.put("num_compte",compte.getNumCpte());
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,new JREmptyDataSource());
-        JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\Eboa\\"+compte.getNumCpte()+"-report.pdf");
+        try{
+            JasperReport jasperReport = JasperCompileManager.compileReport(new FileInputStream("C:\\Users\\Eboa\\reportTest.jrxml"));
+            HashMap<String, Object> parameters = new HashMap();
+            parameters.put("nom_client",compte.getClient().getNomClt());
+            parameters.put("num_compte",compte.getNumCpte());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,new JREmptyDataSource());
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\Eboa\\"+compte.getNumCpte()+"-report.pdf");
+            this.message = "Fichier PDF généré";
+        }catch(Exception e){
+            this.message = "Erreur : "+e.getMessage();
+        }
+        FacesMessage fm = new FacesMessage(this.message);
+        FacesContext.getCurrentInstance().addMessage(null, fm);
     }
 }

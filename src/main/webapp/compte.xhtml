@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Comptes</title>
+    </h:head>
+    <h:body>
+        <h:form>  
+            <p:menubar>
+                <p:menuitem value="Clients" outcome="client"/>
+                <p:menuitem value="Comptes" outcome="compte"/>
+                <p:menuitem value="Opérations" outcome="operation"/>
+            </p:menubar>
+        </h:form>
+        <br/>
+         <p:growl id="msg"/>
+        <h:form>
+            <p:fieldset legend="Nouveau compte" toggleable="true">
+                <p:panelGrid>
+                    <p:commandButton style="margin-right: 10px" value="Compte Courant" oncomplete="PF('modal1').show();"></p:commandButton>
+                    <p:commandButton value="Compte Epargne" oncomplete="PF('modal2').show();"></p:commandButton>
+                </p:panelGrid>
+            </p:fieldset>
+        </h:form>
+        <br/>
+        <p:dialog widgetVar="modal1" header="Informations" modal="true" showEffect="clip" resizable="false">
+            <p:ajax event="close" listener="#{cpteController.resetCompteCourant()}" update=":data"/>
+            <h:form id="data">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Numéro"/>
+                    <p:inputText value="#{cpteController.cc.numCpte}" required="true"/>
+                    <p:outputLabel value="Client"/>
+                    <p:selectOneMenu value="#{cpteController.clientId}" rendered="#{cpteController.cc.id == 0}">
+                        <f:selectItems value="#{cpteController.listClient}" var="list" itemLabel="#{list.nomClt}" 
+                                       itemValue="#{list.id}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu value="#{cpteController.clientId}" rendered="#{cpteController.cc.id != 0}">
+                        <f:selectItem itemLabel="#{cpteController.cc.client.nomClt}" itemValue="#{cpteController.cc.client.id}"></f:selectItem>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Type de compte"/>
+                    <p:selectOneRadio id="type" unselectable="true" required="true" value="#{cpteController.cc.typeCpte}">
+                        <f:selectItem itemLabel="Compte Courant" itemValue="CC"/>
+                    </p:selectOneRadio>
+                    <p:outputLabel value="Solde"/>
+                    <p:inputText value="#{cpteController.cc.solde}" required="true"/>
+                    <p:outputLabel value="Découvert"/>
+                    <p:inputText value="#{cpteController.cc.decouvert}"/>
+                    <p:commandButton value="Enregistrer" actionListener="#{cpteController.createCompteCourant()}"
+                                     update=":tab data :msg" oncomplete="PF('modal1').hide();"
+                                     rendered="#{cpteController.cc.id == 0}"></p:commandButton>
+                                     <p:commandButton value="Modifier" actionListener="#{cpteController.updateCourant()}"
+                                     update=":tab data :msg" oncomplete="PF('modal1').hide();"
+                                     rendered="#{cpteController.cc.id != 0}"></p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <p:dialog widgetVar="modal2" header="Informations" modal="true" showEffect="clip" resizable="false">
+            <p:ajax event="close" listener="#{cpteController.resetCompteEpargne()}" update=":form"/>
+            <h:form id="form">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Numéro"/>
+                    <p:inputText value="#{cpteController.ce.numCpte}" required="true"/>
+                    <p:outputLabel value="Client"/>
+                    <p:selectOneMenu value="#{cpteController.clientId}" rendered="#{cpteController.ce.id == 0}">
+                        <f:selectItems value="#{cpteController.listClient}" var="list" itemLabel="#{list.nomClt}" 
+                                       itemValue="#{list.id}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu value="#{cpteController.clientId}" rendered="#{cpteController.ce.id != 0}">
+                        <f:selectItem itemLabel="#{cpteController.ce.client.nomClt}" itemValue="#{cpteController.ce.client.id}"></f:selectItem>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Type de compte"/>
+                    <p:selectOneRadio id="type" unselectable="true" required="true" value="#{cpteController.ce.typeCpte}">
+                        <f:selectItem itemLabel="Compte Epargne" itemValue="CE" />
+                    </p:selectOneRadio>
+                    <p:outputLabel value="Solde"/>
+                    <p:inputText value="#{cpteController.ce.solde}" required="true"/>
+                    <p:outputLabel value="Taux"/>
+                    <p:inputText value="#{cpteController.ce.taux}"/>
+                    <p:commandButton value="Enregistrer" actionListener="#{cpteController.createCompteEpargne()}"
+                                     update=":tab form :msg" oncomplete="PF('modal2').hide();"
+                                     rendered="#{cpteController.ce.id == 0}"></p:commandButton>
+                                     <p:commandButton value="Modifier" actionListener="#{cpteController.updateEpargne()}"
+                                     update=":tab form :msg" oncomplete="PF('modal2').hide();"
+                                     rendered="#{cpteController.ce.id != 0}"></p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <h:form id="tab">
+            <p:fieldset legend="Liste des comptes" toggleable="true">
+                <p:dataTable value="#{cpteController.listCpte}" var="c">
+                    <p:column headerText="Id">
+                        <h:outputText value="#{c.id}"/>
+                    </p:column>
+                    <p:column headerText="Client">
+                        <h:outputText value="#{c.client.nomClt}"/>
+                    </p:column>
+                    <p:column headerText="Numéro">
+                        <h:outputText value="#{c.numCpte}"/>
+                    </p:column>
+                    <p:column headerText="Type">
+                        <h:outputText value="#{c.typeCpte}"/>
+                    </p:column>
+                    <p:column headerText="Date de création">
+                        <h:outputText value="#{c.dateCreation}">
+                            <f:convertDateTime pattern="dd-MM-YYYY"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Options">
+                        <p:commandButton value="S" actionListener="#{cpteController.deleteCompteCourant(c)}"
+                                         update=":tab :msg" rendered="#{c.typeCpte == 'CC'}"></p:commandButton> 
+                        <p:commandButton value="M" actionListener="#{cpteController.editCompteCourant(c)}"
+                                         update=":data" oncomplete="PF('modal1').show();" rendered="#{c.typeCpte == 'CC'}"></p:commandButton>
+
+                        <p:commandButton value="S" actionListener="#{cpteController.deleteCompteEpargne(c)}"
+                                         update=":tab :msg" rendered="#{c.typeCpte == 'CE'}"></p:commandButton> 
+                        <p:commandButton value="M" actionListener="#{cpteController.editCompteEpargne(c)}"
+                                         update=":form" oncomplete="PF('modal2').show();" rendered="#{c.typeCpte == 'CE'}"></p:commandButton>
+                                         <p:commandButton value="E" actionListener="#{cpteController.printReport(c)}"></p:commandButton>               
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+

@@ -118,7 +118,7 @@
                                          update=":tab :msg" rendered="#{c.typeCpte == 'CE'}"></p:commandButton> 
                         <p:commandButton value="M" actionListener="#{cpteController.editCompteEpargne(c)}"
                                          update=":form" oncomplete="PF('modal2').show();" rendered="#{c.typeCpte == 'CE'}"></p:commandButton>
-                                         <p:commandButton value="E" actionListener="#{cpteController.printReport(c)}"></p:commandButton>               
+                                         <p:commandButton value="P" actionListener="#{cpteController.printReport(c)}"></p:commandButton>               
                     </p:column>
                 </p:dataTable>
             </p:fieldset>

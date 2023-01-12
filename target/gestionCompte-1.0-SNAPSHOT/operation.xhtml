@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Opérations</title>
+    </h:head>
+    <h:body>
+        <h:form>  
+            <p:menubar>
+                <p:menuitem value="Clients" outcome="client"/>
+                <p:menuitem value="Comptes" outcome="compte"/>
+                <p:menuitem value="Opérations" outcome="operation"/>
+            </p:menubar>
+        </h:form>
+        <br/>
+        <p:growl id="msg"/>
+        <h:form>
+            <p:fieldset legend="Effectuer une opération" toggleable="true">
+                <p:panelGrid>
+                    <p:commandButton value="Retrait" style="margin-right: 10px" oncomplete="PF('modalRetrait').show();"></p:commandButton>
+                    <p:commandButton value="Versement" style="margin-right: 10px" oncomplete="PF('modalVers').show();"></p:commandButton>
+                    <p:commandButton value="Virement" oncomplete="PF('modalVire').show();"></p:commandButton>
+                </p:panelGrid>
+            </p:fieldset>
+        </h:form>
+        <br/>
+        <p:dialog widgetVar="modalRetrait" header="Retrait" modal="true" showEffect="clip" resizable="false">
+            <p:ajax event="close" listener="#{operationController.resetRetrait()}" update=":formRetrait"/>
+            <h:form id="formRetrait">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Numéro de compte"/>
+                    <p:selectOneMenu value="#{operationController.compteNumber}">
+                        <f:selectItems value="#{operationController.listCompte}" var="list" itemLabel="#{list.numCpte}" 
+                                       itemValue="#{list.id}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Montant"/>
+                    <p:inputText value="#{operationController.retrait.montant}"/>
+                    <p:commandButton value="Effectuer" oncomplete="PF('modalRetrait').hide();" 
+                                     actionListener="#{operationController.createRetrait()}" 
+                                     update=":msg :formRetrait :tab"></p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <p:dialog widgetVar="modalVers" header="Versement" modal="true" showEffect="clip" resizable="false">
+            <p:ajax event="close" listener="#{operationController.resetVersement()}" update=":formVers"/>
+            <h:form id="formVers">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Numéro de compte"/>
+                    <p:selectOneMenu value="#{operationController.compteNumber}">
+                        <f:selectItems value="#{operationController.listCompte}" var="list" itemLabel="#{list.numCpte}" 
+                                       itemValue="#{list.id}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Montant"/>
+                    <p:inputText value="#{operationController.versement.montant}"/>
+                    <p:commandButton value="Effectuer" oncomplete="PF('modalVers').hide();" 
+                                     actionListener="#{operationController.createVersement()}" 
+                                     update=":msg :formVers :tab"></p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <p:dialog widgetVar="modalVire" header="Virement" modal="true" showEffect="clip" resizable="false">
+            <p:ajax event="close" listener="#{operationController.resetVersement()}" update=":formVire"/>
+            <h:form id="formVire">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="N° de compte déposant"/>
+                    <p:selectOneMenu value="#{operationController.compteNumber}">
+                        <f:selectItems value="#{operationController.listCompte}" var="list1" itemLabel="#{list1.numCpte}" 
+                                       itemValue="#{list1.id}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Montant"/>
+                    <p:inputText value="#{operationController.versement.montant}"/>
+                    <p:outputLabel value="N° de compte dépositaire"/>
+                    <p:selectOneMenu value="#{operationController.cpteNumber}">
+                        <f:selectItems value="#{operationController.listCompte}" var="list2" itemLabel="#{list2.numCpte}" 
+                                       itemValue="#{list2.id}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Effectuer" oncomplete="PF('modalVers').hide();"
+                                     actionListener="#{operationController.createVirement()}"
+                                     update=":msg :formVire :tab"></p:commandButton>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <h:form id="tab">
+            <p:fieldset legend="Historique des opérations" toggleable="true">
+                <p:dataTable value="#{operationController.listOperation}" var="op">
+                    <p:column headerText="Id">
+                        <h:outputText value="#{op.id}"/>
+                    </p:column>
+                    <p:column headerText="N° de compte">
+                        <h:outputText value="#{op.compte.numCpte}"/>
+                    </p:column>
+                    <p:column headerText="Montant">
+                        <h:outputText value="#{op.montant}"/>
+                    </p:column>
+                    <p:column headerText="Opération">
+                        <h:outputText value="Versement" rendered="#{op.typeOperation == 2}"/>
+                        <h:outputText value="Retrait" rendered="#{op.typeOperation == 1}"/>
+                    </p:column>
+                    <p:column headerText="Date d'opération">
+                        <h:outputText value="#{op.dateOperation}">
+                            <f:convertDateTime pattern="dd-MM-YY"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+

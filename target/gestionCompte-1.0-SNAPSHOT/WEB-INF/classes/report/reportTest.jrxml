@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportTest" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3feb736f-99ac-48ab-a918-f073fe14d2af">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nomClient" class="java.lang.String"/>
+	<field name="numCompte" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<image>
+				<reportElement x="480" y="-14" width="75" height="63" uuid="5e95f120-024c-485a-a81e-2861b6fa3a44"/>
+				<imageExpression><![CDATA["C:\\Users\\Eboa\\Pictures\\uba-logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="51" y="34" width="114" height="15" uuid="364ccf71-193c-4324-ae36-bbb2a6f40efd"/>
+				<text><![CDATA[Réf: UBA/AA/CE/FE/CN/]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="165" y="34" width="99" height="15" uuid="05b68d17-e63a-4771-8593-14e379c530e7"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="165" y="0" width="225" height="14" uuid="02538ac0-9ec3-4dc2-b02c-c12faf44dae4"/>
+				<textElement textAlignment="Justified">
+					<font isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ATTESTION DE DOMICILIATION BANCAIRE]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="339" splitType="Stretch">
+			<staticText>
+				<reportElement x="52" y="0" width="450" height="32" uuid="bd51ef87-1747-4b6f-91a2-109e01371c56"/>
+				<textElement textAlignment="Justified"/>
+				<text><![CDATA[Nous soussignés, UNITED BANK FOR AFRICA (UBA) CAMEROON S.A. Société Anonyme avec Conseil d'Administration au capital de 10.000.000.000 Francs CFA dont le siège est à Douala.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="56" width="451" height="20" uuid="4211688d-9d8f-498c-b574-61d1a9728b04"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Représentée par Madame Charlotte NJUMA en qualité de chef d'Agence.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="91" width="452" height="36" uuid="8d8c42e4-58e6-4926-811d-222a6b86cb87"/>
+				<text><![CDATA[Attestons par la présente que			  est client de notre banque et est enregistré sous le Relevé d'identité Bancaire (RIB) ci-dessous: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="127" width="116" height="17" uuid="065f752d-5be1-4e9f-82e1-8162629f5453"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO DE COMPTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="376" y="127" width="82" height="17" uuid="be8e324d-304e-42bf-863b-df647894467e"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLE RIB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="127" width="92" height="17" uuid="be9eb0ab-0ccf-4e25-bfd4-d65564826b8d"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODE GUICHET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="127" width="92" height="17" uuid="77047cb0-aa1b-437f-8863-f9f577553f6f"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODE BANQUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="239" width="428" height="15" uuid="3adf97d6-a62e-490e-a464-a181cac3c247"/>
+				<text><![CDATA[En foi de quoi la présente attestation lui est délivrée pour servir et valoir ce que de droit.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="254" width="77" height="16" uuid="062802f1-6cff-4b34-9ff8-b72c5df2a83a"/>
+				<text><![CDATA[Fait à Douala,le]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="129" y="254" width="100" height="16" uuid="3498f968-7f84-4bdd-8241-35f5d3d9b9c7"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="91" width="100" height="20" uuid="54447419-726f-46f9-bcff-383ca3490a77"/>
+				<textFieldExpression><![CDATA[$F{nomClient}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="76" y="144" width="92" height="20" uuid="6997a2d9-1713-47e8-ab98-fd6eca710a01"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[10023]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="144" width="92" height="20" uuid="8086388d-9480-48df-a7a8-756a9321ac0c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[03456]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="376" y="144" width="82" height="20" uuid="2374104b-03b2-4b4f-873c-0a21b99a36d3"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[58]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="260" y="144" width="116" height="20" uuid="68d42488-d009-44d2-bba5-c3df44e1229c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{numCompte}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="51" y="11" width="184" height="17" uuid="1e8f6402-2a11-4f7a-998f-de9921259909"/>
+				<text><![CDATA[United Bank for Africa Cameroon S.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="28" width="410" height="21" uuid="05439634-6413-41e5-bc99-431252e19b99"/>
+				<text><![CDATA[Société anonyme avec conseil d'administration au capital de 10 000 000 000 Francs CFA]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
